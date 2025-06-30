@@ -39,10 +39,12 @@
                                 <td>{{ $data->alamat }}</td>
                                 <td>{{ $data->jenis }}</td>
                                 <td>
-                                    <a href="#" class="btn btn-info btn-sm" wire:click="edit({{ $data->id }})"
-                                        data-toggle="modal" data-target="#editPage">Ubah</a>
-                                    <a href="#" class="btn btn-sm btn-danger" wire:click="confirmDelete({{ $data->id }})"
-                                        data-toggle="modal" data-target="#deletePage">Hapus</a>
+                                    <a href="#" class="btn btn-outline-warning btn-transparent btn-sm d-inline-block me-1 mb-2"
+                                        wire:click="edit({{ $data->id }})" data-toggle="modal"
+                                        data-target="#editPage">Ubah</a>
+                                    <a href="#" class="btn btn-sm btn-outline-danger btn-transaprent d-inline-block mb-2"
+                                        wire:click="confirmDelete({{ $data->id }})" data-toggle="modal"
+                                        data-target="#deletePage">Hapus</a>
                                 </td>
                             </tr>
                         @endforeach

@@ -1,4 +1,4 @@
-<nav class="col-md-2 bg-dark sidebar">
+<nav id="sidebar" class="col-md-2 bg-dark sidebar shadow">
     <div class="sidebar-sticky">
         <div class="d-flex justify-content-center">
             <img src="{{ asset('image/logo.png') }}" alt="PASTI Logo" width="100">

@@ -60,7 +60,7 @@
                                 <td>
                                     @auth
                                         @if (Auth::user()->jenis === 'admin')
-                                            <a href="#" wire:click="pilih({{ $data->id }})" class="btn btn-success btn-sm"
+                                            <a href="#" wire:click="pilih({{ $data->id }})" class="btn btn-outline-success btn-transparent btn-sm"
                                                 data-toggle="modal" data-target="#pilih">Proses</a>
                                         @endif
                                     @endauth

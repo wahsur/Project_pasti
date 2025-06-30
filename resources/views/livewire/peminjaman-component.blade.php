@@ -71,12 +71,12 @@
                                 <td>
                                     @auth
                                         @if (Auth::user()->jenis === 'admin')
-                                            <button class="btn btn-sm btn-warning" data-toggle="modal"
+                                            <button class="btn btn-sm btn-outline-warning btn-transparent" data-toggle="modal"
                                                 data-target="#modalEditPeminjaman" wire:click="edit({{ $pinjam->id }})">
                                                 Edit
                                             </button>
-                                            <button class="btn btn-sm btn-danger" data-toggle="modal" data-target="#modalHapus"
-                                                wire:click="confirmDelete({{ $pinjam->id }})">
+                                            <button class="btn btn-sm btn-outline-danger btn-transparent" data-toggle="modal"
+                                                data-target="#modalHapus" wire:click="confirmDelete({{ $pinjam->id }})">
                                                 Hapus
                                             </button>
                                         @endif
