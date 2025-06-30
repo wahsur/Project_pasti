@@ -1,0 +1,273 @@
+body {
+  padding-top: 70px;
+}
+
+/* Responsivitas untuk layar kecil */
+@media (max-width: 768px) {
+  .carousel-image {
+    max-width: 100%;
+    /* Di layar kecil, gambar bisa lebih besar */
+    max-height: 200px;
+    /* Membatasi tinggi gambar pada layar kecil */
+  }
+}
+
+
+
+h3 {
+  font-size: 32px;
+  font-weight: 700;
+  color: #333;
+
+  margin-bottom: 40px;
+  letter-spacing: 1px;
+}
+
+
+
+.category-item {
+
+  border-radius: 15px;
+
+  padding: 5px;
+  text-align: center;
+  transition: all 0.3s ease-in-out;
+  overflow: hidden;
+}
+
+.category-item:hover {
+  transform: translateY(-10px) scale(1.05);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+
+}
+
+.category-icon {
+  display: block;
+  margin: 0 auto;
+
+  transition: transform 0.3s ease;
+}
+
+.category-item:hover .category-icon {
+  transform: rotate(360deg);
+  /* Rotasi pada ikon saat hover */
+}
+
+.category-item p {
+
+  color: #333;
+  margin-top: 20px;
+  text-transform: capitalize;
+  letter-spacing: 1px;
+}
+
+/* Responsiveness */
+@media (max-width: 768px) {
+  .col-md-2 {
+    width: 45%;
+  }
+}
+
+@media (max-width: 576px) {
+
+  .col-md-2,
+  .col-6 {
+    width: 100%;
+  }
+}
+
+
+
+
+
+.container {
+  width: 80%;
+  margin: 0 auto;
+
+}
+
+.container::after {
+  content: '';
+  display: block;
+  clear: both;
+}
+
+.section {
+  padding: 25px 0;
+
+}
+
+.box {
+  border-radius: 16px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 15px;
+  box-sizing: border-box;
+  margin: 10px 0 25px 0;
+}
+
+.box::after {
+  content: '';
+  display: block;
+  clear: both;
+}
+
+.col-5 {
+  width: 20%;
+  height: 100px;
+
+  text-align: center;
+  float: left;
+}
+
+.col-4 {
+  width: 25%;
+  height: 320px;
+  border: 1px solid #ccc;
+  float: left;
+  padding: 10px;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+}
+
+.col-4 img {
+  width: 100%;
+  height: 80%;
+}
+
+.col-4 .Nama {
+  margin-bottom: 5px;
+
+}
+
+.col-4 .Harga {
+  font-weight: bold;
+  color: black;
+  float: right;
+}
+
+/* Styling untuk container pencarian */
+.cari {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px 0;
+}
+
+/* Styling untuk form */
+.cari form {
+  margin-left: 300px;
+  display: flex;
+  gap: 10px;
+  /* Jarak antar elemen */
+}
+
+/* Input pencarian */
+.cari input[type="text"] {
+  width: 200px;
+  padding: 10px 15px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 25px;
+  /* Membuat sudut melingkar */
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+/* Hover dan fokus untuk input */
+.cari input[type="text"]:focus {
+  border-color: #007bff;
+  /* Warna biru untuk fokus */
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  /* Efek cahaya */
+}
+
+/* Tombol submit */
+.cari input[type="submit"] {
+  padding: 10px 20px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 25px;
+  /* Membuat sudut melingkar */
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* Hover untuk tombol */
+.cari input[type="submit"]:hover {
+  background-color: #0056b3;
+  /* Warna lebih gelap saat hover */
+}
+
+.cart-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #f9f9f9;
+  color: #007bff;
+  font-size: 20px;
+  text-decoration: none;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+/* Hover efek pada keranjang */
+.cart-icon:hover {
+  background-color: #007bff;
+  color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-color: #007bff;
+}
+
+@media (max-width: 768px) {
+
+  /* Memastikan ikon keranjang dan profil tidak gepeng dan tetap bulat */
+  .cart-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    /* Ukuran lebar kontainer yang proporsional */
+    height: 50px;
+    /* Ukuran tinggi kontainer yang proporsional */
+    border-radius: 50%;
+    /* Pastikan kontainer berbentuk bulat */
+    background-color: #f9f9f9;
+    /* Latar belakang putih */
+    color: #007bff;
+    /* Warna ikon */
+    font-size: 1.5rem;
+    /* Ukuran font ikon */
+    text-decoration: none;
+    border: 1px solid #e0e0e0;
+    /* Border abu-abu terang */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+  }
+
+  /* Efek hover pada ikon */
+  .cart-icon:hover {
+    background-color: #e0e0e0;
+    /* Latar belakang saat hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    /* Efek bayangan lebih kuat saat hover */
+  }
+
+  /* Menyesuaikan form pencarian untuk tampilan mobile */
+  .search form {
+    flex-direction: column;
+    gap: 15px;
+    /* Memberikan jarak antar elemen form */
+  }
+
+  .search input[type="submit"] {
+    width: 100%;
+    /* Tombol submit mengambil lebar penuh */
+  }
+}

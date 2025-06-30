@@ -1,0 +1,195 @@
+
+
+.navbar {
+    background-color: #ffffff; /* Warna latar belakang putih */
+    padding: 10px 0; /* Padding untuk navbar */
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+  }
+  
+  
+/* Gaya untuk logo gambar di navbar */
+/* Gaya untuk logo gambar di navbar */
+/* Menyesuaikan navbar dengan desain yang diinginkan */
+.navlist {
+  display: flex;
+  padding-left: 0;
+  list-style: none;
+  margin-bottom: 0;
+}
+
+.navlist li {
+  position: relative;
+}
+
+.navlist .nav-link {
+  font-size: var(--p-font); /* Gunakan variabel CSS untuk ukuran font */
+  color: #00008b; /* Gunakan variabel untuk warna teks */
+  font-weight: 500;
+  padding: 10px 27px;
+  text-transform: uppercase; /* Opsional, untuk memberi efek kapitalisasi */
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+/* Efek hover dengan garis bawah */
+.navlist .nav-link::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  background: #00008b; /* Gunakan warna utama untuk garis */
+  bottom: -3px;
+  left: 0;
+  transition: width 0.4s ease;
+}
+
+.navlist .nav-link:hover::after {
+  width: 100%;
+}
+
+/* Efek perubahan warna saat hover */
+.navlist .nav-link:hover {
+  color: #00008b; /* Sesuaikan warna saat hover */
+}
+
+ 
+  
+  /* Responsif */
+  @media (max-width: 991px) {
+    .navbar-nav {
+      text-align: center;
+    }
+  
+    .navbar-toggler {
+      margin-left: auto;
+    }
+    
+    .nav-item {
+      margin: 5px 0; /* Spacing antar item saat di mobile */
+    }
+  }
+  
+
+/* Styling Product Container dengan Grid */
+.product-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 kolom pada layar besar */
+    gap: 30px;
+    padding: 0 20px;
+}
+
+/* Styling Card Produk */
+.product-card {
+    background-color: #fff;
+   
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: all 0.3s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    border: 1px solid #eaeaea;
+}
+
+/* Hover Effect pada Card Produk */
+.product-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* Styling Gambar Produk */
+.product-image img {
+    width: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease-in-out;
+}
+
+/* Efek Zoom pada Gambar Produk saat Hover */
+
+
+/* Styling untuk detail produk */
+.product-details {
+    padding: 20px;
+    text-align: center;
+    flex-grow: 1;
+}
+
+/* Nama Produk */
+.product-details h3 {
+    font-size: 1.6rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: #333;
+    line-height: 1.3;
+}
+
+/* Harga Produk */
+.product-details p {
+    font-size: 1.2rem;
+    color: #999;
+    margin-bottom: 15px;
+}
+
+/* Tombol Aksi */
+.action-buttons {
+    text-align: center;
+    padding: 15px;
+    background-color: #f8f8f8;
+    border-top: 1px solid #eaeaea;
+}
+
+/* Tombol Detail */
+.action-buttons .btnn {
+    background-color: #004af6;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    font-size: 1.1rem;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btnn.detail {
+  padding: 12px 24px; /* Adds padding around the text */
+  background-color: #007bff; /* Blue background for the button */
+  color: #fff; /* White text */
+  font-size: 16px; /* Font size for the button */
+  font-weight: 500; /* Slightly bold text */
+  text-decoration: none; /* Removes underline */
+  border-radius: 5px; /* Rounded corners */
+  transition: background-color 0.3s, transform 0.3s; /* Smooth transition for hover effect */
+  display: inline-block; /* Makes the link behave like a block element */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for a floating effect */
+}
+
+/* Efek Hover pada Tombol */
+
+
+/* Pesan jika Produk Tidak Ditemukan */
+.product-container p {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #888;
+}
+
+/* Media Query untuk Responsivitas */
+@media (max-width: 1024px) {
+    .product-container {
+        grid-template-columns: repeat(3, 1fr); /* 3 kolom pada layar tablet */
+        gap: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .product-container {
+        grid-template-columns: repeat(2, 1fr); /* 2 kolom pada layar lebih kecil */
+        gap: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .product-container {
+        grid-template-columns: 1fr; /* 1 kolom pada layar ponsel */
+    }
+}

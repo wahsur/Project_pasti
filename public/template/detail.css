@@ -1,0 +1,64 @@
+/* General styles for the product detail section */
+.product-detail-section {
+    padding: 40px 0;
+}
+
+.product-detail-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    background-color: #fff;
+}
+
+.product-image img {
+    max-width: 400px;
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+.product-info {
+    max-width: 500px;
+    padding-left: 20px;
+}
+
+.product-info h3 {
+    font-size: 24px;
+    color: #333;
+}
+
+.product-info p {
+    font-size: 16px;
+    color: #555;
+    line-height: 1.6;
+}
+
+/* Action Buttons */
+.action-buttons {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.action-buttons .btnn.back {
+    background-color: #28a745;
+    color: #fff;
+    padding: 12px 24px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.action-buttons .btnn.back:hover {
+    background-color: #218838;
+    transform: translateY(-2px);
+}
+
+.action-buttons .btnn.back:focus {
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(40, 167, 69, 0.6);
+}
+
