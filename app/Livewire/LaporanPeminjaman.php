@@ -3,52 +3,83 @@
 namespace App\Livewire;
 
 use Livewire\Component;
-use Livewire\WithoutUrlPagination;
-use Livewire\WithPagination;
 use App\Models\Peminjaman;
 use Illuminate\Support\Facades\Auth;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
 
 class LaporanPeminjaman extends Component
 {
-    use WithPagination, WithoutUrlPagination;
+    public $tanggalMulai, $tanggalSelesai, $tanggalError;
+    public $filteredData = [];
 
-    protected $paginationTheme = 'bootstrap';
-    public $aset_id, $tgl_pinjam, $tgl_kembali, $status, $peminjaman_id;
-    public $aset, $cari;
-    public function render()
+    public function cariData()
     {
-        $user = Auth::user();
-        $statuses = [Peminjaman::STATUS_PENDING, Peminjaman::STATUS_DIPINJAM];
+        $this->tanggalError = null; // reset error dulu
 
-        if ($user->jenis === 'admin') {
-            $peminjaman = Peminjaman::with('aset', 'user')
-                ->whereIn('status', $statuses)
-                ->when($this->cari, function ($query) {
-                    $query->whereHas('aset', function ($q) {
-                        $q->where('namaAset', 'like', '%' . $this->cari . '%');
-                    });
-                })
-                ->latest()
-                ->paginate(10);
-        } else {
-            $peminjaman = Peminjaman::with('aset')
-                ->where('user_id', $user->id)
-                ->when($this->cari, function ($query) {
-                    $query->whereHas('aset', function ($q) {
-                        $q->where('namaAset', 'like', '%' . $this->cari . '%');
-                    });
-                })
-                ->latest()
-                ->paginate(10);
+        // Validasi: jika tanggal selesai lebih awal dari tanggal mulai
+        if ($this->tanggalMulai && $this->tanggalSelesai) {
+            if ($this->tanggalSelesai < $this->tanggalMulai) {
+                $this->tanggalError = 'Tanggal selesai tidak boleh lebih awal dari tanggal mulai.';
+                $this->filteredData = [];
+                return;
+            }
         }
 
-        $layout = $user->jenis === 'pengguna'
-            ? 'components.layouts.user.member'
-            : 'components.layouts.app';
+        $query = Peminjaman::with(['aset', 'user'])
+            ->whereIn('status', [Peminjaman::STATUS_DIPINJAM, Peminjaman::STATUS_KEMBALI]);
 
-        return view('livewire.admin.laporan-peminjaman', [
-            'peminjaman' => $peminjaman,
-            'aset' => $this->aset,
-        ])->layout($layout)->layoutData(['title' => 'Peminjaman']);
+        if (Auth::user()->jenis !== 'admin') {
+            $query->where('user_id', Auth::id());
+        }
+
+        if ($this->tanggalMulai && $this->tanggalSelesai) {
+            $query->whereBetween('tgl_pinjam', [
+                Carbon::parse($this->tanggalMulai)->startOfDay(),
+                Carbon::parse($this->tanggalSelesai)->endOfDay()
+            ]);
+        }
+
+        $this->filteredData = $query->latest()->get();
+    }
+
+    public function exportPdf()
+    {
+        $this->tanggalError = null;
+
+        // ✅ Cek apakah tanggal belum diisi
+        if (!$this->tanggalMulai || !$this->tanggalSelesai) {
+            $this->tanggalError = 'Silakan isi tanggal terlebih dahulu sebelum export.';
+            return;
+        }
+
+        // ✅ Cek apakah tanggal tidak valid (tanggal selesai < tanggal mulai)
+        if ($this->tanggalSelesai < $this->tanggalMulai) {
+            $this->tanggalError = 'Tanggal selesai tidak boleh lebih awal dari tanggal mulai.';
+            return;
+        }
+
+        // ✅ Cek apakah data hasil pencarian kosong
+        if (empty($this->filteredData) || count($this->filteredData) === 0) {
+            $this->tanggalError = 'Tidak ada data di rentan tanggal yang anda pilih';
+            return;
+        }
+
+        // ✅ Jika semua valid, generate PDF
+        $pdf = Pdf::loadView('exports.laporan-peminjaman-pdf', [
+            'peminjaman' => $this->filteredData
+        ]);
+
+        return response()->streamDownload(function () use ($pdf) {
+            echo $pdf->stream();
+        }, 'laporan_peminjaman&pengembalian_' . now()->format('Ymd_His') . '.pdf');
+    }   
+
+
+    public function render()
+    {
+        return view('livewire.admin.laporan-peminjaman')
+            ->layout('components.layouts.app')
+            ->layoutData(['title' => 'Laporan Peminjaman']);
     }
 }

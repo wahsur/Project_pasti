@@ -1,74 +1,77 @@
 <div>
     <div class="card shadow">
         <div class="card-header">
-            <h2>Laporan Peminjaman</h2>
+            <h2>Laporan Peminjaman & Pengembalian</h2>
         </div>
         <div class="card-body">
-            {{-- ✅ PERBAIKAN: Tambahkan tampilan pesan success --}}
-            @if (session()->has('success'))
-                <div class="alert alert-success" role="alert">
-                    {{ session('success') }}
+            @if ($tanggalError)
+                <div class="alert alert-danger mt-2 col-md-6">
+                    {{ $tanggalError }}
                 </div>
             @endif
-            {{-- ✅ PERBAIKAN: Tambahkan tampilan pesan error --}}
-            @if (session()->has('error'))
-                <div class="alert alert-danger" role="alert">
-                    {{ session('error') }}
+            <div class="row mb-3">
+                <div class="col-md-3">
+                    <label for="tanggalMulai">Dari Tanggal</label>
+                    <input type="date" id="tanggalMulai" wire:model="tanggalMulai" class="form-control">
                 </div>
-            @endif
-            <div class="d-flex justify-content-between mb-3">
-                <!-- Tombol Tambah di kanan -->
-                <a href="#" class="btn btn-primary ml-2" data-toggle="modal"
-                    data-target="#">Print</a>
+                <div class="col-md-3">
+                    <label for="tanggalSelesai">Sampai Tanggal</label>
+                    <input type="date" id="tanggalSelesai" wire:model="tanggalSelesai" class="form-control">
+                </div>
+                <div class="col-md-6 d-flex align-items-end">
+                    <button wire:click="cariData" class="btn btn-primary mr-2">Cari</button>
+                    <button wire:click="exportPdf" class="btn btn-danger" @if (!$tanggalMulai || !$tanggalSelesai || empty($filteredData)) disabled @endif>Export PDF</button>
+                </div>
             </div>
-            {{-- Tabel --}}
+
             <div class="table-responsive">
-                <table class="table">
+                <table class="table mt-3 text-center">
                     <thead>
                         <tr>
-                            <th>No</th>
-                            <th>User</th>
+                            <th style="width: 50px;">No</th>
+                            <th>Nama User</th>
                             <th>Nama Aset</th>
-                            <th>Tgl Pinjam</th>
-                            <th>Tgl Kembali</th>
-                            <th>Status</th>
+                            <th>Jumlah Dipinjam</th>
+                            <th>Tanggal Peminjaman</th>
+                            <th>Status Peminjaman</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse ($peminjaman as $index => $pinjam)
-                            <tr>
-                                <td>{{ $peminjaman->firstItem() + $index }}</td>
-                                <td>{{ $pinjam->user->nama }}</td>
-                                <td>{{ $pinjam->aset->namaAset }}</td>
-                                <td>{{ $pinjam->tgl_pinjam }}</td>
-                                <td>{{ $pinjam->tgl_kembali }}</td>
-                                <td>
-                                    @php
-                                        $status = $pinjam->status;
+                        @if (!empty($filteredData) && count($filteredData) > 0)
+                            @foreach ($filteredData as $index => $item)
+                                <tr>
+                                    <td>{{ $index + 1 }}</td>
+                                    <td>{{ $item->user->nama ?? 'User Dihapus' }}</td>
+                                    <td>{{ $item->aset->namaAset ?? 'Aset Dihapus' }}</td>
+                                    <td>{{ $item->jumlah }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($item->tgl_pinjam)->format('d-m-Y') }}</td>
+                                    <td>
+                                        @php
+                                            $status = $item->status;
 
-                                        $badgeClass = match ($status) {
-                                            'pending' => 'badge-warning',
-                                            'dipinjam' => 'badge-info',
-                                            'ditolak' => 'badge-danger',
-                                            'kembali' => 'badge-success',
-                                            default => 'badge-secondary',
-                                        };
-                                    @endphp
-                                    <span class="badge {{ $badgeClass }}">
-                                        {{ ucfirst($status) }}
-                                    </span>
+                                            $badgeClass = match ($status) {
+                                                'pending' => 'badge-warning',
+                                                'dipinjam' => 'badge-info',
+                                                'ditolak' => 'badge-danger',
+                                                'kembali' => 'badge-success',
+                                                default => 'badge-secondary',
+                                            };
+                                        @endphp
+                                        <span class="badge {{ $badgeClass }}">
+                                            {{ ucfirst($status) }}
+                                        </span>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        @else
+                            <tr>
+                                <td colspan="6" class="text-center text-muted">
+                                    Silakan pilih tanggal dan klik tombol "Cari" untuk menampilkan data.
                                 </td>
                             </tr>
-                        @empty
-                            <tr>
-                                <td colspan="7" class="text-center">Tidak ada data.</td>
-                            </tr>
-                        @endforelse
+                        @endif
                     </tbody>
-
                 </table>
-                {{-- Pagination --}}
-                {{ $peminjaman->links() }}
             </div>
         </div>
     </div>

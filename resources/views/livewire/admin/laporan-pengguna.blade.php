@@ -4,41 +4,32 @@
             <h2>Laporan Pengguna</h2>
         </div>
         <div class="card-body">
-            @if (session()->has('success'))
-                <div class="alert alert-success" role="alert">
-                    {{ session('success') }}
-                </div>
-            @endif
-            <div class="d-flex justify-content-between mb-3">
-                <!-- Tombol Tambah di kanan -->
-                <a href="#" class="btn btn-primary ml-2" data-toggle="modal" data-target="#">Print</a>
+            <div class="d-flex justify-content-end">
+                <button wire:click="exportPdf" class="btn btn-danger">Export PDF</button>
             </div>
             <div class="table-responsive">
-                <table class="table">
+                <table class="table mt-3 text-center">
                     <thead>
                         <tr>
-                            <th scope="col">No</th>
-                            <th scope="col">Nama</th>
-                            <th scope="col">Email</th>
-                            <th scope="col">Telepon</th>
-                            <th scope="col">Alamat</th>
-                            <th scope="col">Jenis</th>
+                            <th style="width: 50px;">No</th>
+                            <th>Nama User</th>
+                            <th>Email</th>
+                            <th>Telepon</th>
+                            <th>Alamat</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($member as $data)
+                        @foreach ($member as $item)
                             <tr>
                                 <th scope="row">{{ $loop->iteration }}</th>
-                                <td>{{ $data->nama }}</td>
-                                <td>{{ $data->email }}</td>
-                                <td>{{ $data->telepon }}</td>
-                                <td>{{ $data->alamat }}</td>
-                                <td>{{ $data->jenis }}</td>
+                                <td>{{ $item->nama}}</td>
+                                <td>{{ $item->email}}</td>
+                                <td>{{ $item->telepon}}</td>
+                                <td>{{ $item->alamat}}</td>
                             </tr>
                         @endforeach
                     </tbody>
                 </table>
-                {{ $member->links() }}
             </div>
         </div>
     </div>

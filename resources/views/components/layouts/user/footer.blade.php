@@ -4,11 +4,13 @@
         <div class="row">
             <!-- Kolom Kontak -->
             <div class="col-md-4 mb-4">
-                <h2 class="text-white fw-bold mb-3">WG</h2>
-                <h5 class="fw-bold mb-2">Hubungi Saya</h5>
-                <p>wahgita1011@gmail.com</p>
-                <p>Jln Gn. IndraKila No 16</p>
-                <p>Tegal Kertha, Denpasar</p>
+                <div class="d-flex">
+                    <img src="{{ asset('image/logo.png') }}" alt="PASTI Logo" width="100">
+                </div>
+                <h5 class="fw-bold mb-2">Hubungi Kami</h5>
+                <p>pasti@gmail.com</p>
+                <p>Jln Udayana</p>
+                <p>Jimbaran</p>
             </div>
             <!-- Kolom Skill -->
             <div class="col-md-4 mb-4">
@@ -37,21 +39,26 @@
         <!-- Social Media Icons -->
         <div class="text-center pt-4 border-top border-secondary">
             <div class="mb-3">
-                <a href="https://wa.me/62895800187469" target="_blank" class="btn btn-outline-light btn-sm rounded-circle me-2">
+                <a href="https://wa.me/62895800187469" target="_blank"
+                    class="btn btn-outline-light btn-sm rounded-circle me-2">
                     <i class="fab fa-whatsapp"></i>
                 </a>
-                <a href="https://instagram.com/wg.artgallery_" target="_blank" class="btn btn-outline-light btn-sm rounded-circle me-2">
+                <a href="https://instagram.com/wg.artgallery_" target="_blank"
+                    class="btn btn-outline-light btn-sm rounded-circle me-2">
                     <i class="fab fa-instagram"></i>
                 </a>
-                <a href="https://pinterest.com/wg.artgallery" target="_blank" class="btn btn-outline-light btn-sm rounded-circle me-2">
+                <a href="https://pinterest.com/wg.artgallery" target="_blank"
+                    class="btn btn-outline-light btn-sm rounded-circle me-2">
                     <i class="fab fa-pinterest"></i>
                 </a>
-                <a href="https://www.tiktok.com/@wahgtaaa?is_from_webapp=1&sender_device=pc" target="_blank" class="btn btn-outline-light btn-sm rounded-circle me-2">
+                <a href="https://www.tiktok.com/@wahgtaaa?is_from_webapp=1&sender_device=pc" target="_blank"
+                    class="btn btn-outline-light btn-sm rounded-circle me-2">
                     <i class="fab fa-tiktok"></i>
                 </a>
             </div>
             <p class="text-muted small">
-                Created by <a href="https://instagram.com/wahgtaa" target="_blank" class="text-primary fw-bold">Ngurah Gita</a> 
+                Created by <a href="https://instagram.com/wahgtaa" target="_blank" class="text-primary fw-bold">Ngurah
+                    Gita</a>
                 with <a href="https://getbootstrap.com" target="_blank" class="text-info fw-bold">Bootstrap 5</a>
             </p>
         </div>

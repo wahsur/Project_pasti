@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\User;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Livewire\Component;
 use Livewire\WithoutUrlPagination;
 use Livewire\WithPagination;
@@ -14,17 +15,21 @@ class LaporanPengguna extends Component
     public $nama, $telepon, $email, $password, $alamat, $id, $cari;
     public function render()
     {
-        if ($this->cari != "") {
-            $data['member'] = User::where('jenis', 'pengguna')
-                ->where(function ($query) {
-                    $query->where('nama', 'like', '%' . $this->cari . '%')
-                        ->orWhere('email', 'like', '%' . $this->cari . '%');
-                })
-                ->paginate(10);
-        } else {
-            $data['member'] = User::where('jenis', 'pengguna')->paginate(10);
-        }
-        $layout['title'] = 'Kelola Pengguna';
-        return view('livewire.admin.laporan-pengguna', $data)->layoutData($layout);
+        $member= User::where('jenis', 'pengguna')->paginate(10);
+        $layout['title'] = 'Laporan Pengguna';
+        return view('livewire.admin.laporan-pengguna', ['member' => $member])->layoutData($layout);
     }
+
+    public function exportPdf()
+    {
+        $member = User::where('jenis', 'pengguna')->get();
+
+        $pdf = Pdf::loadView('exports.laporan-pengguna-pdf', [
+            'member' => $member
+        ]);
+
+        return response()->streamDownload(function () use ($pdf) {
+            echo $pdf->stream();
+        }, 'laporan_pengguna' . now()->format('Ymd_His') . '.pdf');
+    }   
 }

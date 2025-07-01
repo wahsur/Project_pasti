@@ -62,13 +62,7 @@
             <li class="nav-item">
                 <a class="nav-link text-white {{ request()->routeIs('laporanPeminjaman') ? 'active' : '' }}"
                     href="{{ route('laporanPeminjaman') }}">
-                    <span data-feather="file-text"></span> Laporan Peminjaman
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-white {{ request()->routeIs('laporanPengembalian') ? 'active' : '' }}"
-                    href="{{ route('laporanPengembalian') }}">
-                    <span data-feather="file-text"></span> Laporan Pengembalian
+                    <span data-feather="file-text"></span> Laporan Peminjaman & Pengembalian
                 </a>
             </li>
             <li class="nav-item">
