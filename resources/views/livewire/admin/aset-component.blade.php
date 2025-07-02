@@ -59,10 +59,17 @@
                                 <td>
                                     @auth
                                         @if (Auth::user()->jenis === 'admin')
-                                            <a href="#" class="btn btn-outline-warning btn-transparent btn-sm d-inline-block me-1 mb-2" wire:click="edit({{ $data->id }})"
-                                                data-toggle="modal" data-target="#editPage">Ubah</a>
-                                            <a href="#" class="btn btn-sm btn-outline-danger btn-transaprent d-inline-block mb-2" wire:click="confirmDelete({{ $data->id }})"
-                                                data-toggle="modal" data-target="#deletePage">Hapus</a>
+                                            <a href="#"
+                                                class="btn btn-outline-warning btn-transparent btn-sm d-inline-block me-1 mb-2"
+                                                wire:click="edit({{ $data->id }})" data-toggle="modal"
+                                                data-target="#editPage">Ubah</a>
+                                            <a href="#" class="btn btn-sm btn-outline-danger btn-transaprent d-inline-block mb-2"
+                                                wire:click="confirmDelete({{ $data->id }})" data-toggle="modal"
+                                                data-target="#deletePage">Hapus</a>
+                                            <button wire:click="showQrCode({{ $data->id }})"
+                                                class="btn btn-sm btn-outline-primary btn-transparent mb-2">
+                                                QR Code
+                                            </button>
                                         @endif
                                     @endauth
                                 </td>
@@ -77,6 +84,30 @@
         </div>
     </div>
 
+    <!-- Modal QR Code (Bootstrap 4.5 compatible) -->
+    <div wire:ignore.self class="modal fade" id="qrModal" tabindex="-1" role="dialog" aria-labelledby="qrModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content text-center">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="qrModalLabel">QR Code Aset</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Tutup">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="qr-content">
+                    {!! $qrCode !!}
+                    @if($selectedKodeAset)
+                        <p class="mt-2">ID Aset: <strong>{{ $selectedKodeAset }}</strong></p>
+                    @endif
+                </div>
+                <div class="modal-footer">
+                    <button onclick="downloadQrAsImage()" class="btn btn-success">Download JPG</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Ubah -->
     <div wire:ignore.self class="modal fade" id="editPage" tabindex="-1" aria-labelledby="exampleModalLabel"

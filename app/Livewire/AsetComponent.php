@@ -9,6 +9,7 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
 use Livewire\WithoutUrlPagination;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class AsetComponent extends Component
 {
@@ -18,11 +19,24 @@ class AsetComponent extends Component
 
     public $id, $kodeAset, $namaAset, $kategori, $jumlah, $unit_tersedia,
     $ruangan, $status, $deskripsi, $foto, $foto_lama, $cari, $kategoriList;
+    public string $qrCode = '';
+    public ?string $selectedKodeAset = null;
 
     public function mount()
     {
         $this->kategoriList = Kategori::all(); // Untuk dropdown kategori
     }
+
+    public function showQrCode($id)
+    {
+        $aset = Aset::findOrFail($id);
+
+        $this->qrCode = QrCode::size(200)->generate($aset->id);
+        $this->selectedKodeAset = $aset->id;
+
+        $this->dispatch('show-qr-modal');
+    }
+
 
     public function render()
     {

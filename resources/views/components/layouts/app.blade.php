@@ -63,12 +63,152 @@
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jsqr/dist/jsQR.js"></script>
+    <script src="https://unpkg.com/html5-qrcode@2.3.7/html5-qrcode.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://unpkg.com/feather-icons"></script>
 
+    <!-- Scan Image -->
+    <script>
+        function scanQrFromImage(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function () {
+                const img = new Image();
+                img.src = reader.result;
+
+                img.onload = function () {
+                    const canvas = document.createElement("canvas");
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    const context = canvas.getContext("2d");
+                    context.drawImage(img, 0, 0, img.width, img.height);
+
+                    const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+                    const qrCode = jsQR(imageData.data, canvas.width, canvas.height);
+
+                    if (qrCode) {
+                        const kode = qrCode.data;
+                        console.log("Hasil scan dari gambar:", kode);
+                        // Jika QR berisi id langsung redirect
+                        // window.location.href = "/pelacakan/" + kode;
+
+                        // Jika QR berisi kodeAset, redirect lewat route pelacakan/kode
+                        window.location.href = "/detail/" + encodeURIComponent(kode);
+                    } else {
+                        alert("QR Code tidak terbaca. Pastikan gambarnya jelas.");
+                    }
+                };
+            };
+            reader.readAsDataURL(file);
+        }
+    </script>
+
+    <!-- Scan kamera -->
+    <script>
+        let html5QrCode;
+
+        function startScanner() {
+            const qrRegion = document.getElementById("reader");
+            html5QrCode = new Html5Qrcode("reader");
+
+            const qrConfig = { fps: 10, qrbox: 250 };
+
+            html5QrCode.start(
+                { facingMode: "environment" }, // kamera belakang
+                qrConfig,
+                (decodedText, decodedResult) => {
+                    document.getElementById("scan-result").innerText = "Kode Aset: " + decodedText;
+
+                    // Contoh redirect ke halaman detail
+                    window.location.href = "/detail/" + decodedText;
+
+                    stopScanner(); // matikan scanner setelah dapat
+                },
+                (errorMessage) => {
+                    // console.log("Scan error: ", errorMessage);
+                }
+            ).catch((err) => {
+                console.error("Gagal memulai kamera: ", err);
+                alert("Gagal mengakses kamera");
+            });
+        }
+
+        function stopScanner() {
+            if (html5QrCode) {
+                html5QrCode.stop().then(() => {
+                    html5QrCode.clear();
+                }).catch((err) => {
+                    console.error("Gagal menghentikan kamera: ", err);
+                });
+            }
+        }
+    </script>
+
+    <!-- Modal QR -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            Livewire.on('show-qr-modal', () => {
+                $('#qrModal').modal('show');
+            });
+        });
+    </script>
+
+    <!-- Script untuk download QR sebagai JPG -->
+    <script>
+        function downloadQrAsImage() {
+            const qrContainer = document.getElementById('qr-content');
+            const svg = qrContainer.querySelector('svg');
+
+            if (!svg) {
+                alert("SVG QR Code tidak ditemukan.");
+                return;
+            }
+
+            const svgData = new XMLSerializer().serializeToString(svg);
+            const svgBlob = new Blob([svgData], { type: "image/svg+xml;charset=utf-8" });
+            const url = URL.createObjectURL(svgBlob);
+
+            const img = new Image();
+            img.onload = function () {
+                const canvas = document.createElement("canvas");
+                canvas.width = img.width;
+                canvas.height = img.height;
+                const ctx = canvas.getContext("2d");
+                ctx.drawImage(img, 0, 0);
+
+                const jpgData = canvas.toDataURL("image/jpeg");
+                const a = document.createElement("a");
+                a.href = jpgData;
+                a.download = "qr-code.jpg";
+                a.click();
+
+                URL.revokeObjectURL(url);
+            };
+            img.src = url;
+        }
+    </script>
+
+    <script>
+        function downloadQrAsImage() {
+            const qrElement = document.getElementById('qr-content');
+
+            html2canvas(qrElement).then(canvas => {
+                const link = document.createElement('a');
+                link.href = canvas.toDataURL("image/jpeg");
+                link.download = 'qr-kode-aset.jpg';
+                link.click();
+            }).catch(error => {
+                alert("Gagal mengunduh gambar: " + error);
+            });
+        }
+    </script>
+
+    <!-- Toggle large -->
     <script>
         feather.replace();
 
@@ -82,6 +222,7 @@
         });
     </script>
 
+    <!-- Toggle Mobile -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const mobileToggle = document.querySelector('.mobile-toggle');
@@ -93,25 +234,6 @@
         });
     </script>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            feather.replace();
-
-            const laporanLink = document.querySelector('[href="#laporanSubmenu"]');
-            const laporanCollapse = document.getElementById('laporanSubmenu');
-            const chevronIcon = laporanLink?.querySelector('.chevron-icon');
-
-            if (laporanCollapse && chevronIcon) {
-                laporanCollapse.addEventListener('show.bs.collapse', function () {
-                    chevronIcon.classList.add('rotate');
-                });
-
-                laporanCollapse.addEventListener('hide.bs.collapse', function () {
-                    chevronIcon.classList.remove('rotate');
-                });
-            }
-        });
-    </script>
 </body>
 
 </html>
