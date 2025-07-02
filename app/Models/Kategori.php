@@ -13,4 +13,8 @@ class Kategori extends Model
     protected $fillable = ['id', 'nama', 'deskripsi'];
     protected $table = "kategoris";
     protected $primaryKey = 'id';
+
+    public function aset(){
+        return $this->hasMany(Aset::class);
+    }
 }

@@ -57,7 +57,7 @@
 
     <div class="row">
         <!-- Kolom Kiri: Peminjaman Terbaru -->
-        <div class="col-lg-8 mb-4">
+        <div class="col-lg-8 mb-4 order-2 order-lg-1">
             <section class="card shadow p-3 h-100">
                 <div class="card-header d-flex justify-content-between align-items-center mb-2">
                     <h4 class="mb-0">Peminjaman Terbaru</h4>
@@ -85,9 +85,8 @@
                                                                 <td>{{ $pinjam->tgl_pinjam }}</td>
                                                                 <td>{{ $pinjam->tgl_kembali }}</td>
                                                                 <td>
-                                                                    <span
-                                                                        class="badge 
-                                                                        {{ $pinjam->status === 'pending' ? 'bg-warning text-dark' :
+                                                                    <span class="badge 
+                                                                                                    {{ $pinjam->status === 'pending' ? 'bg-warning text-dark' :
                                     ($pinjam->status === 'dipinjam' ? 'bg-info text-dark' : 'bg-success') }}">
                                                                         {{ ucfirst($pinjam->status) }}
                                                                     </span>
@@ -106,7 +105,7 @@
         </div>
 
         <!-- Kolom Kanan: Peminjam Teratas -->
-        <div class="col-lg-4 mb-4">
+        <div class="col-lg-4 mb-4 order-1 order-lg-2">
             <section class="card shadow p-3 h-100">
                 <div class="card-header mb-2">
                     <h5 class="mb-0">Peminjam Teratas</h5>
@@ -124,4 +123,7 @@
             </section>
         </div>
     </div>
+
+    <!-- Chart -->
+    <livewire:statistik-chart />
 </div>
